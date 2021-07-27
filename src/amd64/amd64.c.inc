@@ -184,7 +184,7 @@ static int generate_key_derivation(char* out, char const* tx_pub, char const* vi
   base_precomp(base, &unpacked);
   scalarmult_p1p1(&tp1p1, base, view_sec);
 
-  // non-standard, monero specific - guarantees point is in ed25519 group
+  // non-standard, queenero specific - guarantees point is in ed25519 group
   ge25519_p1p1_to_p2((ge25519_p2*)&unpacked, &tp1p1);
   ge25519_dbl_p1p1(&tp1p1,(ge25519_p2 *)&unpacked);
   ge25519_p1p1_to_p2((ge25519_p2 *)&unpacked, &tp1p1);

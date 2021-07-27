@@ -28,20 +28,20 @@
 
 include(functions.cmake)
 
-set(MONERO_CRYPTO_LIBRARY "auto" CACHE STRING "Select a crypto library backend")
+set(QMR_CRYPTO_LIBRARY "auto" CACHE STRING "Select a crypto library backend")
 
-if (${MONERO_CRYPTO_LIBRARY} STREQUAL "auto")
-  monero_crypto_autodetect(AVAILABLE BEST)
+if (${QMR_CRYPTO_LIBRARY} STREQUAL "auto")
+  queenero_crypto_autodetect(AVAILABLE BEST)
   if (NOT DEFINED BEST)
     message(FATAL_ERROR "No crypto library available for target platform")
   endif ()
   message("Using ${BEST} crypto backend")
-  set(MONERO_CRYPTO_LIBRARY ${BEST})
+  set(QMR_CRYPTO_LIBRARY ${BEST})
 endif ()
 
 # next line fatal errors if invalid library selected
-monero_crypto_generate_header(${MONERO_CRYPTO_LIBRARY} "${CMAKE_BINARY_DIR}/include/monero/crypto.h")
+queenero_crypto_generate_header(${QMR_CRYPTO_LIBRARY} "${CMAKE_BINARY_DIR}/include/queenero/crypto.h")
 
-monero_crypto_get_target(${MONERO_CRYPTO_LIBRARY} CRYPTO_TARGET)
-add_library(monero-crypto-intree ALIAS ${CRYPTO_TARGET})
+queenero_crypto_get_target(${QMR_CRYPTO_LIBRARY} CRYPTO_TARGET)
+add_library(queenero-crypto-intree ALIAS ${CRYPTO_TARGET})
 

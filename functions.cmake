@@ -26,67 +26,67 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 # THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-set(MONERO_CRYPTO_DIR ${CMAKE_CURRENT_LIST_DIR})
-add_subdirectory("${MONERO_CRYPTO_DIR}/src" ${CMAKE_CURRENT_BINARY_DIR}/monero_crypto_src)
+set(QMR_CRYPTO_DIR ${CMAKE_CURRENT_LIST_DIR})
+add_subdirectory("${QMR_CRYPTO_DIR}/src" ${CMAKE_CURRENT_BINARY_DIR}/queenero_crypto_src)
 
 # Set `OUT` to a list of all valid library names.
-function(monero_crypto_libraries OUT)
+function(queenero_crypto_libraries OUT)
   set(${OUT} "amd64-64-24k" "amd64-51-30k" PARENT_SCOPE)
-endfunction (monero_crypto_libraries)
+endfunction (queenero_crypto_libraries)
 
 # `OUT` is set to 1 iff `CRYPTO_LIBRARY` is a valid library name.
-function(monero_crypto_valid CRYPTO_LIBRARY OUT)
-  monero_crypto_libraries(ALL_LIBRARIES)
+function(queenero_crypto_valid CRYPTO_LIBRARY OUT)
+  queenero_crypto_libraries(ALL_LIBRARIES)
   list(FIND ALL_LIBRARIES ${CRYPTO_LIBRARY} FOUND)
   if (FOUND LESS 0)
     set(${OUT} 0 PARENT_SCOPE)
   else ()
     set(${OUT} 1 PARENT_SCOPE)
   endif ()
-endfunction (monero_crypto_valid)
+endfunction (queenero_crypto_valid)
 
 # Set `OUT` to a valid C/C++ namespace name based on `CRYPTO_LIBRARY`.
-function(monero_crypto_get_namespace CRYPTO_LIBRARY OUT)
+function(queenero_crypto_get_namespace CRYPTO_LIBRARY OUT)
   string(REPLACE "-" "_" TEMP "${CRYPTO_LIBRARY}")
   set(${OUT} ${TEMP} PARENT_SCOPE)
-endfunction (monero_crypto_get_namespace)
+endfunction (queenero_crypto_get_namespace)
 
 # Set `OUT` to a valid target dependency name based on `CRYPTO_LIBRARY`.
-function(monero_crypto_get_target CRYPTO_LIBRARY OUT)
-  set(${OUT} "monero-crypto-${CRYPTO_LIBRARY}" PARENT_SCOPE)
-endfunction (monero_crypto_get_target)
+function(queenero_crypto_get_target CRYPTO_LIBRARY OUT)
+  set(${OUT} "queenero-crypto-${CRYPTO_LIBRARY}" PARENT_SCOPE)
+endfunction (queenero_crypto_get_target)
 
 # Sets `BEST` to the preferred crypto library for the target platform, and
 # sets `AVAILABLE` to all valid crypto libraries for the target platform.
-function(monero_crypto_autodetect AVAILABLE BEST)
+function(queenero_crypto_autodetect AVAILABLE BEST)
   include(CheckLanguage)
   check_language(ASM-ATT)
   if (CMAKE_ASM-ATT_COMPILER AND UNIX AND (CMAKE_SYSTEM_PROCESSOR MATCHES "amd64.*|AMD64.*|x86_64.*"))
     set(${AVAILABLE} "amd64-64-24k" "amd64-51-30k" PARENT_SCOPE)
     set(${BEST} "amd64-64-24k" PARENT_SCOPE)
   else ()
-    message("Monero crypto autodetect failed to find any libraries for target platform")
+    message("Queenero crypto autodetect failed to find any libraries for target platform")
     unset(${AVAILABLE} PARENT_SCOPE)
     unset(${BEST} PARENT_SCOPE)
   endif ()
-endfunction (monero_crypto_autodetect)
+endfunction (queenero_crypto_autodetect)
 
 # Writes a C header to `HEADER_FILE` that contains these C functions:
-#   - `monero_crypto_generate_key_derivation`
-#   - `monero_crypto_derive_subaddress_public_key`
+#   - `queenero_crypto_generate_key_derivation`
+#   - `queenero_crypto_derive_subaddress_public_key`
 # that map to the selected `CRYPTO_LIBRARY` implementation using macro
 # replacement. See README.md for function explanation.
 #
 # A fatal error is generated if `CRYPTO_LIBRARY` is not valid - linking will
 # always fails in this situation.
-function(monero_crypto_generate_header MONERO_CRYPTO_LIBRARY HEADER_FILE)
-  monero_crypto_valid(${MONERO_CRYPTO_LIBRARY} VALID)
+function(queenero_crypto_generate_header QMR_CRYPTO_LIBRARY HEADER_FILE)
+  queenero_crypto_valid(${QMR_CRYPTO_LIBRARY} VALID)
   if (NOT VALID)
-    monero_crypto_libraries(ALL_LIBRARIES)
+    queenero_crypto_libraries(ALL_LIBRARIES)
     string(REPLACE ";" " " ALL_LIBRARIES "${ALL_LIBRARIES}")
-    message(FATAL_ERROR "Library ${MONERO_CRYPTO_LIBRARY} is not valid. Must be one of: ${ALL_LIBRARIES}")
+    message(FATAL_ERROR "Library ${QMR_CRYPTO_LIBRARY} is not valid. Must be one of: ${ALL_LIBRARIES}")
   endif ()
-  monero_crypto_get_namespace(${MONERO_CRYPTO_LIBRARY} MONERO_CRYPTO_NAMESPACE)
-  configure_file("${MONERO_CRYPTO_DIR}/src/crypto.h.in" ${HEADER_FILE})
-endfunction (monero_crypto_generate_header)
+  queenero_crypto_get_namespace(${QMR_CRYPTO_LIBRARY} QMR_CRYPTO_NAMESPACE)
+  configure_file("${QMR_CRYPTO_DIR}/src/crypto.h.in" ${HEADER_FILE})
+endfunction (queenero_crypto_generate_header)
 

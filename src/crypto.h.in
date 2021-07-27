@@ -26,13 +26,13 @@
 // STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef MONERO_CRYPTO_H
-#define MONERO_CRYPTO_H
+#ifndef QMR_CRYPTO_H
+#define QMR_CRYPTO_H
 
-#include "monero/crypto/@MONERO_CRYPTO_LIBRARY@.h"
+#include "queenero/crypto/@QMR_CRYPTO_LIBRARY@.h"
 
-#define monero_crypto_ge25519_scalarmult monero_crypto_@MONERO_CRYPTO_NAMESPACE@_ge25519_scalarmult
-#define monero_crypto_generate_key_derivation monero_crypto_@MONERO_CRYPTO_NAMESPACE@_generate_key_derivation
-#define monero_crypto_generate_subaddress_public_key monero_crypto_@MONERO_CRYPTO_NAMESPACE@_generate_subaddress_public_key
+#define queenero_crypto_ge25519_scalarmult queenero_crypto_@QMR_CRYPTO_NAMESPACE@_ge25519_scalarmult
+#define queenero_crypto_generate_key_derivation queenero_crypto_@QMR_CRYPTO_NAMESPACE@_generate_key_derivation
+#define queenero_crypto_generate_subaddress_public_key queenero_crypto_@QMR_CRYPTO_NAMESPACE@_generate_subaddress_public_key
 
-#endif // MONERO_CRYPTO_H
+#endif // QMR_CRYPTO_H
